@@ -9,7 +9,7 @@
   ],
   "scripts": {
     "dev": "next dev -p 8000",
-    "build": "next build",
+    "build": "npm run wait && next build",
     "wait": "node script/awaitBackendReady.js",
     "start": "next start",
     "lint": "next lint",
