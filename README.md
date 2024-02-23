@@ -43,6 +43,7 @@ This boilerplate is a monorepo consisting of snapshot of a medusajs backend and 
 Please change the value of environtment variables: `COOCKIE_SECRET` and `JWT_SECRET`.
 
 ### local setup
+- Install dependencies `yarn`
 - Rename `.env.template` ->  `.env`
 - To connect to your online database, from local; copy the `DATABASE_URL` value that have been auto generated on railway, and add to your `.env`
 
@@ -59,13 +60,14 @@ Please change the value of environtment variables: `COOCKIE_SECRET` and `JWT_SEC
 
 ### commands
 `cd medusajs-backend/`
-`npm run build` will compile app.
-`npm run dev` will start local admin dashboard app to manage products and orders etc.
-`npm run start` will start the backend server, needed for the storefront
+`yarn build` will compile app.
+`yarn dev` will start local admin dashboard app to manage products and orders etc.
+`yarn start` will start the backend server, needed for the storefront
 
 # medusa-storefront
 
 ### local setup
+intall dependencies `yarn`
 Rename `.env.local.template` ->  `.env.local`
 
 ### requirements
@@ -73,5 +75,6 @@ Rename `.env.local.template` ->  `.env.local`
 
 ### commands
 `cd medusajs-storefront/`
-`npm run build` will build the nextjs app - remember to start backend app prior to running this command.
-`npm run start` will serve the frontend web shop.
+`yarn wait` will keep calling backend endpoint until a backend responds.
+`yarn build` will build the nextjs app - remember to start backend app prior to running this command.
+`yarn start` will serve the frontend web shop.

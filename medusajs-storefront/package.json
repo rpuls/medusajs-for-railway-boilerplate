@@ -10,6 +10,7 @@
   "scripts": {
     "dev": "next dev -p 8000",
     "build": "next build",
+    "wait": "node script/awaitBackendReady.js",
     "start": "next start",
     "lint": "next lint",
     "cypress": "cypress open",
