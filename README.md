@@ -54,7 +54,7 @@ Please change the value of environtment variables: `COOCKIE_SECRET` and `JWT_SEC
 ### optional
  - **cloudinary**: I highly recommend using a proper media service.
    1. Sign up a free account with [cloudinary](https://cloudinary.com/invites/lpov9zyyucivvxsnalc5/yhlpdo1vaw2mq1la0nks?t=default) choose "developer API calls" type of user.
-   2. Add your `cloud_name`, `api_key` & `api_secret` to .env.local this will eneable 3loudinary as a file service on local dev environment
+   2. Add your `cloud_name`, `api_key` & `api_secret` to .env.local this will eneable Cloudinary as a file service on local dev environment
    3. Configure the same environment variables in your railway dashboard to enable cloudinary in production.
    4. If the steps above was confusin, visit [https://medusajs.com/plugins/medusa-file-cloudinary/](https://medusajs.com/plugins/medusa-file-cloudinary/) for more setup details. 
 

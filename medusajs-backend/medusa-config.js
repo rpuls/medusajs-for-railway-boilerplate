@@ -38,6 +38,8 @@ const CLOUDINARY_API_KEY = process.env.CLOUDINARY_API_KEY;
 const CLOUDINARY_API_SECRET = process.env.CLOUDINARY_API_SECRET;
 const cloudinaryConfigured = CLOUDINARY_CLOUD_NAME && CLOUDINARY_API_KEY && CLOUDINARY_API_SECRET;
 
+const ADMIN_APP_PORT = process.env.PORT || 7001;
+
 const fileServicePlugin = cloudinaryConfigured
   ? {
     resolve: `medusa-file-cloudinary`,
@@ -66,6 +68,7 @@ const plugins = [
       autoRebuild: true,
       develop: {
         open: process.env.OPEN_BROWSER !== "false",
+        port: ADMIN_APP_PORT,
       },
     },
   },
