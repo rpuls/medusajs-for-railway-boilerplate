@@ -8,8 +8,8 @@
   </a>
   <a href="https://railway.app/template/QvfPwp?referralCode=-Yg50p">
     <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="https://railway.app/brand/logo-dark.svg">
-      <source media="(prefers-color-scheme: light)" srcset="https://railway.app/brand/logo-light.svg">
+      <source media="(prefers-color-scheme: dark)" srcset="https://railway.app/brand/logo-light.svg">
+      <source media="(prefers-color-scheme: light)" srcset="https://railway.app/brand/logo-dark.svg">
       <img alt="Railway logo" src="https://railway.app/brand/logo-light.svg" width=100>
     </picture>
   </a>
