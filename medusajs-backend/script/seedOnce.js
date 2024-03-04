@@ -9,13 +9,17 @@ const client = new Client({
 
 const checkIfSeeded = async () => {
   try {
-    console.log(process.env.DATABASE_URL);
-    if (!process.env.DATABASE_URL) console.error('DATABASE_URL is not set');
     await client.connect();
-    const res = await client.query('SELECT * FROM "user" LIMIT 1;'); // Assuming the table is named "user"
-    return res.rowCount > 0;
+    await client.query('SELECT 1 FROM "user" LIMIT 1;');
+    // If the query succeeds, the table exists, and we assume the DB is seeded.
+    return true;
   } catch (error) {
-    console.error('Error checking if database is seeded:', error);
+    // Specifically check for the "relation does not exist" error.
+    if (error.message.includes('relation "user" does not exist')) {
+      return false;
+    }
+    // For any other error, log it and exit.
+    console.error('Unexpected error checking if database is seeded:', error);
     process.exit(1);
   } finally {
     await client.end();
