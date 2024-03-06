@@ -15,8 +15,19 @@
   </a>
 </p>
 
+<h2 align="center">
+  Medusajs open source ecommerce platform<br>
+  <a href="https://railway.app/template/QvfPwp?referralCode=-Yg50p">one-click deploy on railway!</a>
+</h2>
+
 <h1 align="center">
-  Medusajs open source ecommerce platform<br><a href="https://railway.app/template/QvfPwp?referralCode=-Yg50p">one-click deploy on railway!</a></h1>
+  Need help?<br>
+  <a href="https://funkyton.com/medusajs-free-fully-open-source-ecommerce-solution/">Step by step tutorial, with screenshots</a>
+</h1>
+
+
+
+
 
 <p align="center">
 Combine Medusa's modules for your commerce backend with the newest Next.js 14 features for a performant storefront.</p>
