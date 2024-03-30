@@ -10,23 +10,22 @@ const Hero = () => {
             level="h1"
             className="text-3xl leading-10 text-ui-fg-base font-normal"
           >
-            Ecommerce Starter Template
+            Well done! You have successfully deployed your Medusa store on Railway!
           </Heading>
           <Heading
             level="h2"
             className="text-3xl leading-10 text-ui-fg-subtle font-normal"
           >
-            Powered by Medusa, Next.js and Railway
+            Need help customizing your store?
           </Heading>
         </span>
         <a
-          href="https://github.com/rpuls/medusajs-for-railway-boilerplate"
+          href="https://funkyton.com/tutorial-customize-your-medusajs-webshop-storefron/"
           target="_blank"
         >
-          <Button variant="secondary">
-            View on GitHub
-            <Github />
-          </Button>
+          <h1 style={{ textDecoration: "underline" }}>
+            Visit the tutorial
+          </h1>
         </a>
       </div>
     </div>

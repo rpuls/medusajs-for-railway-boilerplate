@@ -22,7 +22,7 @@
 
 <h1 align="center">
   Need help?<br>
-  <a href="https://funkyton.com/medusajs-free-fully-open-source-ecommerce-solution/">Step by step tutorial, with screenshots</a>
+  <a href="https://funkyton.com/medusajs-free-fully-open-source-ecommerce-solution/">Step by step tutorial, with screenshots and video</a>
 </h1>
 
 
