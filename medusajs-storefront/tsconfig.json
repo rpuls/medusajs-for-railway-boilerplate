@@ -36,8 +36,9 @@
     "cypress/support/commands.js",
     "cypress/integration/product.spec.js",
     "cypress/plugins/index.js",
-    ".next/types/**/*.ts"
-, "script/awaitBackendReady.js", "script/awaitBackendReady.js"  ],
+    ".next/types/**/*.ts",
+    "script/awaitBackendReady.js"
+  ],
   "exclude": [
     "node_modules",
     ".next",
