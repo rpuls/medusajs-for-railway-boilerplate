@@ -17,8 +17,8 @@
   "dependencies": {
     "@emotion/react": "^11.7.1",
     "@medusajs/medusa-js": "^1.0.1-canary.3",
-    "@stripe/react-stripe-js": "^1.7.0",
-    "@stripe/stripe-js": "^1.22.0",
+    "@stripe/react-stripe-js": "^2.7.3",
+    "@stripe/stripe-js": "^4.1.0",
     "axios": "^0.23.0",
     "deepmerge": "^4.2.2",
     "formik": "^2.2.9",

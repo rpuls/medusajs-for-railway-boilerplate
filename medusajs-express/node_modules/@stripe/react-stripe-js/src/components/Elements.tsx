@@ -1,5 +1,10 @@
 // Must use `import *` or named imports for React's types
-import {FunctionComponent, ReactElement, ReactNode} from 'react';
+import {
+  FunctionComponent,
+  PropsWithChildren,
+  ReactElement,
+  ReactNode,
+} from 'react';
 import * as stripeJs from '@stripe/stripe-js';
 
 import React from 'react';
@@ -10,50 +15,17 @@ import {
   extractAllowedOptionsUpdates,
   UnknownOptions,
 } from '../utils/extractAllowedOptionsUpdates';
-import {isStripe, isPromise} from '../utils/guards';
+import {parseStripeProp} from '../utils/parseStripeProp';
+import {registerWithStripeJs} from '../utils/registerWithStripeJs';
 
-const INVALID_STRIPE_ERROR =
-  'Invalid prop `stripe` supplied to `Elements`. We recommend using the `loadStripe` utility from `@stripe/stripe-js`. See https://stripe.com/docs/stripe-js/react#elements-props-stripe for details.';
-
-// We are using types to enforce the `stripe` prop in this lib, but in a real
-// integration `stripe` could be anything, so we need to do some sanity
-// validation to prevent type errors.
-const validateStripe = (maybeStripe: unknown): null | stripeJs.Stripe => {
-  if (maybeStripe === null || isStripe(maybeStripe)) {
-    return maybeStripe;
-  }
-
-  throw new Error(INVALID_STRIPE_ERROR);
-};
-
-type ParsedStripeProp =
-  | {tag: 'empty'}
-  | {tag: 'sync'; stripe: stripeJs.Stripe}
-  | {tag: 'async'; stripePromise: Promise<stripeJs.Stripe | null>};
-
-const parseStripeProp = (raw: unknown): ParsedStripeProp => {
-  if (isPromise(raw)) {
-    return {
-      tag: 'async',
-      stripePromise: Promise.resolve(raw).then(validateStripe),
-    };
-  }
-
-  const stripe = validateStripe(raw);
-
-  if (stripe === null) {
-    return {tag: 'empty'};
-  }
-
-  return {tag: 'sync', stripe};
-};
-
-interface ElementsContextValue {
+export interface ElementsContextValue {
   elements: stripeJs.StripeElements | null;
   stripe: stripeJs.Stripe | null;
 }
 
-const ElementsContext = React.createContext<ElementsContextValue | null>(null);
+export const ElementsContext = React.createContext<ElementsContextValue | null>(
+  null
+);
 ElementsContext.displayName = 'ElementsContext';
 
 export const parseElementsContext = (
@@ -102,55 +74,66 @@ interface PrivateElementsProps {
  *
  * @docs https://stripe.com/docs/stripe-js/react#elements-provider
  */
-export const Elements: FunctionComponent<ElementsProps> = (({
+export const Elements: FunctionComponent<PropsWithChildren<ElementsProps>> = (({
   stripe: rawStripeProp,
   options,
   children,
 }: PrivateElementsProps) => {
-  const final = React.useRef(false);
-  const isMounted = React.useRef(true);
   const parsed = React.useMemo(() => parseStripeProp(rawStripeProp), [
     rawStripeProp,
   ]);
+
+  // For a sync stripe instance, initialize into context
   const [ctx, setContext] = React.useState<ElementsContextValue>(() => ({
-    stripe: null,
-    elements: null,
+    stripe: parsed.tag === 'sync' ? parsed.stripe : null,
+    elements: parsed.tag === 'sync' ? parsed.stripe.elements(options) : null,
   }));
 
+  React.useEffect(() => {
+    let isMounted = true;
+
+    const safeSetContext = (stripe: stripeJs.Stripe) => {
+      setContext((ctx) => {
+        // no-op if we already have a stripe instance (https://github.com/stripe/react-stripe-js/issues/296)
+        if (ctx.stripe) return ctx;
+        return {
+          stripe,
+          elements: stripe.elements(options),
+        };
+      });
+    };
+
+    // For an async stripePromise, store it in context once resolved
+    if (parsed.tag === 'async' && !ctx.stripe) {
+      parsed.stripePromise.then((stripe) => {
+        if (stripe && isMounted) {
+          // Only update Elements context if the component is still mounted
+          // and stripe is not null. We allow stripe to be null to make
+          // handling SSR easier.
+          safeSetContext(stripe);
+        }
+      });
+    } else if (parsed.tag === 'sync' && !ctx.stripe) {
+      // Or, handle a sync stripe instance going from null -> populated
+      safeSetContext(parsed.stripe);
+    }
+
+    return () => {
+      isMounted = false;
+    };
+  }, [parsed, ctx, options]);
+
+  // Warn on changes to stripe prop
   const prevStripe = usePrevious(rawStripeProp);
-  if (prevStripe !== null) {
-    if (prevStripe !== rawStripeProp) {
+  React.useEffect(() => {
+    if (prevStripe !== null && prevStripe !== rawStripeProp) {
       console.warn(
         'Unsupported prop change on Elements: You cannot change the `stripe` prop after setting it.'
       );
     }
-  }
+  }, [prevStripe, rawStripeProp]);
 
-  if (!final.current) {
-    if (parsed.tag === 'sync') {
-      final.current = true;
-      setContext({
-        stripe: parsed.stripe,
-        elements: parsed.stripe.elements(options),
-      });
-    }
-
-    if (parsed.tag === 'async') {
-      final.current = true;
-      parsed.stripePromise.then((stripe) => {
-        if (stripe && isMounted.current) {
-          // Only update Elements context if the component is still mounted
-          // and stripe is not null. We allow stripe to be null to make
-          // handling SSR easier.
-          setContext({
-            stripe,
-            elements: stripe.elements(options),
-          });
-        }
-      });
-    }
-  }
-
+  // Apply updates to elements when options prop has relevant changes
   const prevOptions = usePrevious(options);
   React.useEffect(() => {
     if (!ctx.elements) {
@@ -167,36 +150,15 @@ export const Elements: FunctionComponent<ElementsProps> = (({
     }
   }, [options, prevOptions, ctx.elements]);
 
+  // Attach react-stripe-js version to stripe.js instance
   React.useEffect(() => {
-    return (): void => {
-      isMounted.current = false;
-    };
-  }, []);
-
-  React.useEffect(() => {
-    const anyStripe: any = ctx.stripe;
-
-    if (
-      !anyStripe ||
-      !anyStripe._registerWrapper ||
-      !anyStripe.registerAppInfo
-    ) {
-      return;
-    }
-
-    anyStripe._registerWrapper({name: 'react-stripe-js', version: _VERSION});
-
-    anyStripe.registerAppInfo({
-      name: 'react-stripe-js',
-      version: _VERSION,
-      url: 'https://stripe.com/docs/stripe-js/react',
-    });
+    registerWithStripeJs(ctx.stripe);
   }, [ctx.stripe]);
 
   return (
     <ElementsContext.Provider value={ctx}>{children}</ElementsContext.Provider>
   );
-}) as FunctionComponent<ElementsProps>;
+}) as FunctionComponent<PropsWithChildren<ElementsProps>>;
 
 Elements.propTypes = {
   stripe: PropTypes.any,
@@ -216,14 +178,6 @@ export const useElementsContextWithUseCase = (
 export const useElements = (): stripeJs.StripeElements | null => {
   const {elements} = useElementsContextWithUseCase('calls useElements()');
   return elements;
-};
-
-/**
- * @docs https://stripe.com/docs/stripe-js/react#usestripe-hook
- */
-export const useStripe = (): stripeJs.Stripe | null => {
-  const {stripe} = useElementsContextWithUseCase('calls useStripe()');
-  return stripe;
 };
 
 interface ElementsConsumerProps {

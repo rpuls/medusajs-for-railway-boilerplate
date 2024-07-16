@@ -1,9 +1,10 @@
-import React from 'react';
+import React, {StrictMode} from 'react';
 import {render, act} from '@testing-library/react';
 import {renderHook} from '@testing-library/react-hooks';
 
-import {Elements, useElements, useStripe, ElementsConsumer} from './Elements';
+import {Elements, useElements, ElementsConsumer} from './Elements';
 import * as mocks from '../../test/mocks';
+import {useStripe} from './useStripe';
 
 describe('Elements', () => {
   let mockStripe: any;
@@ -291,5 +292,145 @@ describe('Elements', () => {
     expect(() => render(<TestComponent />)).toThrow(
       'Could not find Elements context; You need to wrap the part of your app that mounts <ElementsConsumer> in an <Elements> provider.'
     );
+  });
+
+  describe('React.StrictMode', () => {
+    test('creates elements twice in StrictMode', () => {
+      const TestComponent = () => {
+        const _ = useElements();
+        return <div />;
+      };
+
+      render(
+        <StrictMode>
+          <Elements stripe={mockStripe}>
+            <TestComponent />
+          </Elements>
+        </StrictMode>
+      );
+
+      expect(mockStripe.elements).toHaveBeenCalledTimes(2);
+    });
+
+    test('allows changes to options via elements.update after setting the Stripe object in StrictMode', () => {
+      const TestComponent = () => {
+        const [options, setOptions] = React.useState({foo: 'foo'} as any);
+
+        React.useEffect(() => {
+          setOptions({bar: 'bar'} as any);
+        }, []);
+
+        return (
+          <StrictMode>
+            <Elements stripe={mockStripe} options={options as any} />
+          </StrictMode>
+        );
+      };
+
+      render(<TestComponent />);
+
+      expect(mockStripe.elements).toHaveBeenCalledWith({foo: 'foo'});
+      expect(mockStripe.elements).toHaveBeenCalledTimes(2);
+
+      expect(mockElements.update).toHaveBeenCalledWith({bar: 'bar'});
+      expect(mockStripe.elements).toHaveBeenCalledTimes(2);
+    });
+
+    test('creates only one elements instance when updated while resolving Stripe promise', async () => {
+      let updateResolver: any = () => {};
+      const updateResult = new Promise<void>((resolve) => {
+        updateResolver = resolve;
+      });
+
+      let stripePromiseResolve: any = () => {};
+      const stripePromise = new Promise<any>((resolve) => {
+        stripePromiseResolve = resolve;
+      });
+
+      // Only resolve stripe once the options have been updated
+      updateResult.then(() => {
+        stripePromiseResolve(mockStripePromise);
+      });
+
+      const TestComponent = () => {
+        const [_, forceRerender] = React.useState(0);
+
+        React.useEffect(() => {
+          setTimeout(() => {
+            forceRerender((val) => val + 1);
+            setTimeout(() => {
+              updateResolver();
+            });
+          });
+        }, []);
+
+        return (
+          <Elements
+            stripe={stripePromise}
+            options={{appearance: {theme: 'flat'}}}
+          />
+        );
+      };
+
+      render(<TestComponent />);
+
+      await act(async () => await updateResult);
+
+      await act(async () => await stripePromise);
+
+      expect(mockStripe.elements).toHaveBeenCalledWith({
+        appearance: {theme: 'flat'},
+      });
+      expect(mockStripe.elements).toHaveBeenCalledTimes(1);
+    });
+
+    test('creates only one elements instance when updated while resolving Stripe promise in StrictMode', async () => {
+      let updateResolver: any = () => {};
+      const updateResult = new Promise<void>((resolve) => {
+        updateResolver = resolve;
+      });
+
+      let stripePromiseResolve: any = () => {};
+      const stripePromise = new Promise<any>((resolve) => {
+        stripePromiseResolve = resolve;
+      });
+
+      // Only resolve stripe once the options have been updated
+      updateResult.then(() => {
+        stripePromiseResolve(mockStripePromise);
+      });
+
+      const TestComponent = () => {
+        const [_, forceRerender] = React.useState(0);
+
+        React.useEffect(() => {
+          setTimeout(() => {
+            forceRerender((val) => val + 1);
+            setTimeout(() => {
+              updateResolver();
+            });
+          });
+        }, []);
+
+        return (
+          <StrictMode>
+            <Elements
+              stripe={stripePromise}
+              options={{appearance: {theme: 'flat'}}}
+            />
+          </StrictMode>
+        );
+      };
+
+      render(<TestComponent />);
+
+      await act(async () => await updateResult);
+      await act(async () => await stripePromise);
+
+      expect(mockStripe.elements).toHaveBeenCalledWith({
+        appearance: {theme: 'flat'},
+      });
+      expect(mockStripe.elements).toHaveBeenCalledTimes(1);
+    });
   });
 });
