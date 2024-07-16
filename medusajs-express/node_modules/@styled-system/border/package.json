@@ -1,0 +1,15 @@
+{
+  "name": "@styled-system/border",
+  "version": "5.1.5",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "author": "Brent Jackson",
+  "license": "MIT",
+  "dependencies": {
+    "@styled-system/core": "^5.1.2"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "gitHead": "629fa1a080fb71c0f966c79539aa4c5fd92f2f74"
+}
