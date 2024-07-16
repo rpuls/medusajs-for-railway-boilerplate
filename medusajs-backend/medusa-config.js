@@ -81,6 +81,7 @@ const plugins = [
   },
 ]; 
 
+
 const modules = {
   /*eventBus: {
     resolve: "@medusajs/event-bus-redis",
