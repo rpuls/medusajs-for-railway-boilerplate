@@ -79,7 +79,7 @@ const plugins = [
       webhook_secret: process.env.STRIPE_WEBHOOK_SECRET,
     },
   },
-];
+]; 
 
 const modules = {
   /*eventBus: {
