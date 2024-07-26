@@ -39,7 +39,7 @@ const ShippingAddress = ({
 
   interface Country {
     iso_2: string;
-  }
+  } // trigger build
   
   const countriesInRegion = useMemo(
     () => cart?.region.countries.map((c: Country) => c.iso_2),
