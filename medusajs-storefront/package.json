@@ -29,7 +29,7 @@
     "@medusajs/pricing": "^0.1.13",
     "@medusajs/product": "^0.3.13",
     "@medusajs/ui": "^3.0.1",
-    "@meilisearch/instant-meilisearch": "^0.19.1",
+    "@meilisearch/instant-meilisearch": "^0.7.1",
     "@paypal/paypal-js": "^8.1.0",
     "@paypal/react-paypal-js": "^8.5.0",
     "@stripe/react-stripe-js": "^2.7.3",
