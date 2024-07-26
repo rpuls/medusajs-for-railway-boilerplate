@@ -54,6 +54,10 @@
     @apply max-w-[1440px] w-full mx-auto px-6;
   }
 
+  .contrast-text {
+    filter: invert(100%) grayscale(100%) contrast(100%);
+  }
+
   .contrast-btn {
     @apply px-4 py-2 border border-black rounded-full hover:bg-black hover:text-white transition-colors duration-200 ease-in;
   }
