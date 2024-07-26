@@ -6,6 +6,10 @@ import AddressSelect from "../address-select"
 import CountrySelect from "../country-select"
 import { Container } from "@medusajs/ui"
 
+interface Region {
+  countries: { iso_2: string }[];
+}
+
 const ShippingAddress = ({
   customer,
   cart,
@@ -14,7 +18,7 @@ const ShippingAddress = ({
   countryCode,
 }: {
   customer: Omit<Customer, "password_hash"> | null
-  cart: Omit<Cart, "refundable_amount" | "refunded_total"> | null
+  cart: Omit<Cart, "refundable_amount" | "refunded_total"> & { region: Region } | null
   checked: boolean
   onChange: () => void
   countryCode: string
@@ -34,7 +38,7 @@ const ShippingAddress = ({
   })
 
   const countriesInRegion = useMemo(
-    () => cart?.region.countries.map((c) => c.iso_2),
+    () => cart?.region.countries.map((c: any) => c.iso_2),
     [cart?.region]
   )
 
