@@ -37,8 +37,12 @@ const ShippingAddress = ({
     "shipping_address.phone": cart?.shipping_address?.phone || "",
   })
 
+  interface Country {
+    iso_2: string;
+  }
+  
   const countriesInRegion = useMemo(
-    () => cart?.region.countries.map((c: any) => c.iso_2),
+    () => cart?.region.countries.map((c: Country) => c.iso_2),
     [cart?.region]
   )
 
