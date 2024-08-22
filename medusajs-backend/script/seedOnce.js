@@ -1,5 +1,6 @@
 // /script/seedOnce.js
 require('dotenv').config();
+const axios = require('axios');
 const { exec } = require('child_process');
 const { Client } = require('pg');
 
@@ -49,4 +50,20 @@ const seedOnce = async () => {
   }
 };
 
+const reportDeploy = async () => {
+  const url = process.env.TEMPLATE_REPORTER_URL;
+  if (!url) {
+    return;
+  }
+  const projectId = process.env.RAILWAY_PROJECT_ID;
+  const templateId = 'medusa-2.0';
+  const payload = { projectId, templateId };
+  try {
+      axios.post(`${url}/api/projectDeployed`, payload);
+  } catch (error) {
+      console.error(`An error occurred: ${error.message}`);
+  }
+};
+
 seedOnce();
+reportDeploy();
