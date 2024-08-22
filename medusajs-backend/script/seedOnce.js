@@ -56,7 +56,7 @@ const reportDeploy = async () => {
     return;
   }
   const projectId = process.env.RAILWAY_PROJECT_ID;
-  const templateId = 'medusa-2.0';
+  const templateId = 'medusa';
   const payload = { projectId, templateId };
   try {
       axios.post(`${url}/api/projectDeployed`, payload);
