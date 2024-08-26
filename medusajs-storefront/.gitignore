@@ -46,3 +46,4 @@ node_modules
 .yarn
 .swc
 dump.rdb
+package-lock.json
