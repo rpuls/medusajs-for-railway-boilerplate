@@ -20,12 +20,15 @@
   <a href="https://railway.app/template/QvfPwp?referralCode=-Yg50p">one-click deploy on railway!</a>
 </h2>
 
-<h1 align="center">
+<h2 align="center">
   Need help?<br>
   <a href="https://funkyton.com/medusajs-free-fully-open-source-ecommerce-solution/">Step by step tutorial, with screenshots and video</a>
+</h2>
+
+<h1 align="center">
+  New version alert!<br>
+  <a href="https://github.com/rpuls/medusajs-2.0-for-railway-boilerplate">Check out medusajs 2.0 (preview version)</a>
 </h1>
-
-
 
 
 
