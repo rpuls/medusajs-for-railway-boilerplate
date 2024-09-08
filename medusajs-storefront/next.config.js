@@ -41,6 +41,14 @@ const nextConfig = withStoreConfig({
         protocol: 'https',
         hostname: 'medusa-server-testing.s3.us-east-1.amazonaws.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'bucket-production-5044.up.railway.app',
+      },
+      {
+        protocol: 'https',
+        hostname: 'console-production-05bc.up.railway.app',
+      },
     ],
   },
 })
