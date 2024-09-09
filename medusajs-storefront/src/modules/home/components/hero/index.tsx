@@ -10,7 +10,7 @@ const Hero = () => {
             level="h1"
             className="text-8xl font-normal tracking-wider text-sky-200"
           >
-            TONKA'S WORLD
+            TONKA&apos;S WORLD
           </Heading>
           <Heading
             level="h2"
