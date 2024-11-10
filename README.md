@@ -92,3 +92,16 @@ Rename `.env.local.template` ->  `.env.local`
 `yarn wait` will keep calling backend endpoint until a backend responds.
 `yarn build` will build the nextjs app - remember to start backend app prior to running this command.
 `yarn start` will serve the frontend web shop.
+
+
+<p align="center">
+  <a href="https://funkyton.com/">
+    <div style="text-align: center;">
+      A template by,
+      <br>
+      <picture>
+        <img alt="FUNKYTON logo" src="https://res-5.cloudinary.com/hczpmiapo/image/upload/q_auto/v1/ghost-blog-images/funkyton-logo.png" width=200>
+      </picture>
+    </div>
+  </a>
+</p>
