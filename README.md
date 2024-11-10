@@ -53,7 +53,11 @@ This boilerplate is a monorepo consisting of snapshot of a medusajs backend and 
 
 # medusajs-backend
 
-### railway setup
+### Railway setup
+Use one-click deploy template:
+
+[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/template/QvfPwp?referralCode=-Yg50p)
+
 Please change the value of environtment variables: `COOCKIE_SECRET` and `JWT_SECRET`.
 
 ### local setup
@@ -96,12 +100,10 @@ Rename `.env.local.template` ->  `.env.local`
 
 <p align="center">
   <a href="https://funkyton.com/">
-    <div style="text-align: center;">
-      A template by,
-      <br>
-      <picture>
-        <img alt="FUNKYTON logo" src="https://res-5.cloudinary.com/hczpmiapo/image/upload/q_auto/v1/ghost-blog-images/funkyton-logo.png" width=200>
-      </picture>
-    </div>
+    A template by,
+    <br><br>
+    <picture>
+      <img alt="FUNKYTON logo" src="https://res-5.cloudinary.com/hczpmiapo/image/upload/q_auto/v1/ghost-blog-images/funkyton-logo.png" width=200>
+    </picture>
   </a>
 </p>
