@@ -17,7 +17,7 @@
 
 <h2 align="center">
   Medusajs open source ecommerce platform<br>
-  <a href="https://railway.app/template/QvfPwp?referralCode=-Yg50p">one-click deploy on railway!</a>
+  <a href="https://railway.app/deploy/QvfPwp?referralCode=-Yg50p">one-click deploy on railway!</a>
 </h2>
 
 <h2 align="center">
