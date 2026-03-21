@@ -27,7 +27,7 @@
 
 <h1 align="center">
   New version alert!<br>
-  <a href="https://github.com/rpuls/medusajs-2.0-for-railway-boilerplate">Check out medusajs 2.0 (preview version)</a>
+  <a href="https://github.com/rpuls/medusajs-2.0-for-railway-boilerplate">Check out medusajs 2.0</a>
 </h1>
 
 
