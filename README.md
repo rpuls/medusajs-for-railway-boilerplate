@@ -56,7 +56,7 @@ This boilerplate is a monorepo consisting of snapshot of a medusajs backend and 
 ### Railway setup
 Use one-click deploy template:
 
-[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/template/QvfPwp?referralCode=-Yg50p)
+[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/deploy/QvfPwp?referralCode=-Yg50p)
 
 Please change the value of environtment variables: `COOCKIE_SECRET` and `JWT_SECRET`.
 
